@@ -9,14 +9,59 @@ import time
 window = tk.Tk()
 
 
+class Number_Entry(tk.Frame):
+    def __init__(self, parent):
+        self.STR = ""
+        tk.Frame.__init__(self, parent)
+
+        vcmd = (self.register(self.onValidate), '%d',
+                '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        self.entry = tk.Entry(self, validate="key", validatecommand=vcmd)
+        self.text = tk.Text(self, height=10, width=40)
+        self.entry.pack(side="top", fill="x")
+        # self.text.pack(side="bottom", fill="both", expand=True)
+
+    def onValidate(self, d, i, P, s, S, v, V, W):
+        # can remove some of these
+        self.text.delete("1.0", "end")
+        self.text.insert("end", "OnValidate:\n")
+        self.text.insert("end", "d='%s'\n" % d)
+        self.text.insert("end", "i='%s'\n" % i)
+        self.text.insert("end", "P='%s'\n" % P)
+        self.text.insert("end", "s='%s'\n" % s)
+        self.text.insert("end", "S='%s'\n" % S)
+        self.text.insert("end", "v='%s'\n" % v)
+        self.text.insert("end", "V='%s'\n" % V)
+        self.text.insert("end", "W='%s'\n" % W)
+
+        # Disallow anything but numbers
+        if S.isnumeric():
+            self.text.insert("end", "STR='%s'\n" % P)
+            self.STR = P
+            return True
+        else:
+            self.text.insert("end", "STR='%s'\n" % s)
+            self.STR = s
+            self.bell()
+            return False
+
+    def get(self):
+        # print debug text wall
+        # print(self.text.get('1.0', 'end-1c'))
+        if (self.STR == ""):
+            print("undefined")
+        else:
+            print(self.STR)
+
 
 def radio():
     selection = "You selected to "
-    if(radio_option.get()):
+    if (radio_option.get()):
         selection = selection + " sleep from a timer."
     else:
         selection = selection + " sleep at a specified time."
-    option_label.config(text = selection)
+    option_label.config(text=selection)
+
 
 def enable_sleep(sleep):
     if (int(sleep) > 300000):
@@ -43,6 +88,7 @@ def printtext():
         print("not a valid ms input!")
         invalid_input()
 
+
 def cmdtest():
     print("testing cmd")
     # os.system('cmd /c "echo Hello World!"')
@@ -55,21 +101,22 @@ def cmdtest():
     # ctypes.windll.PowrProf.SetSuspendState(0, 1, 0)
 
 
-
-
+####################
+####################
+####################
+####################
 # label
 greeting = tk.Label(text="Hello, Tkinter")
 greeting.pack()
 
 
-
-currenttime = tk.Label(text = datetime.datetime.now())
+currenttime = tk.Label(text=datetime.datetime.now())
 currenttime.pack()
 
 sleeptimelabel = tk.Label(
     text="In how many ms would you like to sleep your computer?")
 sleeptimelabel.pack()
-sleeptime = tk.Entry(width=25)
+sleeptime = Number_Entry(window)
 sleeptime.pack()
 
 
@@ -88,34 +135,34 @@ sleep_at_time = tk.Radiobutton(
 sleep_at_time.pack()
 
 
-
-
 # button
-testbtn = tk.Button(
-    text="Set To Sleep",
-    width=20,
-    height=5,
-    command=printtext)
-testbtn.pack()
+# testbtn = tk.Button(
+#     text="Set To Sleep",
+#     width=20,
+#     height=5,
+#     command=printtext)
+# testbtn.pack()
 
 testbtn2 = tk.Button(
-    text="Testing if cmd works",
-    command=cmdtest
+    text="Prints number in Entry field",
+    command=sleeptime.get
 )
 testbtn2.pack()
 
+
 def clock():
-    currenttime.config(text=datetime.datetime.now())
+    currenttime.config(text="Current time: " +
+                       str(datetime.datetime.now().hour) + ":" +
+                       str(datetime.datetime.now().minute) + ":" +
+                       str(datetime.datetime.now().second))
     currenttime.after(1000, clock)
+
 
 option_label = tk.Label(window)
 option_label.pack()
 
 clock()
 
+
 # start tkinter
 window.mainloop()
-
-# while(True):
-#     time.sleep(2)
-#     window.update()

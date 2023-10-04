@@ -4,6 +4,7 @@ import os
 import ctypes
 import datetime
 import time
+import threading
 
 # initialize Tk
 window = tk.Tk()
@@ -55,12 +56,23 @@ class Number_Entry(tk.Frame):
 
 
 def radio():
+    # this creates a new widget, placed *after* all other created widgets (it appears at the bottom always)
+    # create and package a label
+    option_label = tk.Label(window, text="Testing")
+    option_label.pack()
+
+    
     selection = "You selected to "
     if (radio_option.get()):
-        selection = selection + " sleep from a timer."
+        _selection = selection + " sleep from a timer."
     else:
-        selection = selection + " sleep at a specified time."
-    option_label.config(text=selection)
+        _selection = selection + " sleep at a specified time."
+    option_label.config(text=_selection)
+
+    # remove label after 2000 ms
+    window.after(2000, option_label.destroy)
+
+
 
 
 def enable_sleep(sleep):
@@ -158,8 +170,8 @@ def clock():
     currenttime.after(1000, clock)
 
 
-option_label = tk.Label(window)
-option_label.pack()
+# option_label = tk.Label(window)
+# option_label.pack()
 
 clock()
 

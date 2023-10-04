@@ -175,6 +175,11 @@ def clock():
 
 clock()
 
+# TODO: create alert on OK button
+# TODO: change UI elements based on which radio button was pressed
+# TODO: add countdown timer
+
+
 
 # start tkinter
 window.mainloop()

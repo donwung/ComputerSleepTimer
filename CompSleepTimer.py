@@ -58,6 +58,7 @@ class Number_Entry(tk.Frame):
             print("undefined")
         else:
             print(self.STR)
+            messagebox.showinfo("Sleep Activated", "Input: " + self.STR)
 
 def radio():
     pass
@@ -192,8 +193,10 @@ clock()
 update_input_field()
 
 
-# TODO: create alert on OK button
-# TODO: change UI elements based on which radio button was pressed
+# TODO: create alert on OK button DONE!
+# TODO: change UI elements based on which radio button was pressed DONE!
+# TODO: using .grid(), create entries that allow setting of *when* to sleep the computer
+# TODO: using .grid(), create entries to sleep the computer at X hours-minutes-seconds
 # TODO: add countdown timer
 
 

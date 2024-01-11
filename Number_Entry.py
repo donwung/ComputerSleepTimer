@@ -1,20 +1,32 @@
 import tkinter as tk
 from tkinter import messagebox
 
+
 class Number_Entry(tk.Frame):
-    def __init__(self, parent):
+    def __init__(self, parent, entry_width):
         self.STR = ""
         tk.Frame.__init__(self, parent)
 
-        vcmd = (self.register(self.onValidate), '%d',
-                '%i', '%P', '%s', '%S', '%v', '%V', '%W')
+        vcmd = (
+            self.register(self.onValidate),
+            "%d",
+            "%i",
+            "%P",
+            "%s",
+            "%S",
+            "%v",
+            "%V",
+            "%W",
+        )
 
         # Input and input debug
-        self.entry = tk.Entry(self, validate="key", validatecommand=vcmd)
+        self.entry = tk.Entry(
+            self, validate="key", validatecommand=vcmd, width=entry_width
+        )
         self.text = tk.Text(self, height=10, width=40)
         self.entry.grid(row="0", column="0")
-        self.submit = tk.Button(self, text="Button", command=self.get)
-        self.submit.grid(row="0", column="1")
+        # self.submit = tk.Button(self, text="Button", command=self.get)
+        # self.submit.grid(row="0", column="1")
         # self.text.pack(side="bottom", fill="both", expand=True)
 
     def onValidate(self, d, i, P, s, S, v, V, W):
@@ -44,7 +56,11 @@ class Number_Entry(tk.Frame):
     def get(self):
         # print debug text wall
         # print(self.text.get('1.0', 'end-1c'))
-        if (self.STR == ""):
-            print("undefined")
+        if self.STR == "":
+            out = "undefined"
+            # print(out)
+            return out
         else:
-            print(self.STR)
+            out = self.STR
+            # print(out)
+            return out

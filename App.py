@@ -9,7 +9,7 @@ window = tk.Tk()
 
 # TODO: create clock DONE!
 # set a time to go to sleep IN
-# TODO: create input fields for numbers
+# TODO: create input fields for numbers DONE!
 # input fields should receive hours, minutes, seconds
 # these three inputs will set a timer for X milliseconds until the computer is slept
 

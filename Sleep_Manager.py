@@ -30,3 +30,8 @@ class Sleep_Manager:
     def go_to_sleep(self):
         print("COMPUTER IS BEING PUT TO SLEEP")
         print(f"sleeping in: {str(self.convert_to_ms(self.time_dict))} ms")
+
+
+# TODO: 
+# TODO: 
+# TODO: create an inherited class to set sleep using sleep AT

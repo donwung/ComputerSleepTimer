@@ -4,44 +4,44 @@ import datetime
 
 
 class Clock(tk.Frame):
-    current_time = datetime.datetime.now()
-    is_ticking = True
-    label_text = "LABEL TEXT"
-    clock = None
+    __current_time = datetime.datetime.now()
+    __is_ticking = True
+    __label_text = "LABEL TEXT"
+    __clock = None
 
     def __init__(self, parent):
-        self.clock = tk.Label(text=self.label_text)
-        self.clock.pack()
+        self.__clock = tk.Label(text=self.__label_text)
+        self.__clock.pack()
 
         # enable clock ticking on start
         self.enable_ticking()
         self.tick()
-        print("creating a clock")
+        print("Clock instantiated")
 
     def get_hour(self):
-        hour = str(self.current_time.hour)
+        hour = str(self.__current_time.hour)
         return hour
 
     def get_minute(self):
-        minute = str(self.current_time.minute)
+        minute = str(self._current_time.minute)
         return minute
 
     def get_second(self):
-        second = str(self.current_time.second)
+        second = str(self._current_time.second)
         return second
 
     def tick(self):
-        if self.is_ticking:
-            self.current_time = datetime.datetime.now()
-            self.label_text = f"HOUR: {self.get_hour()} MIN: {self.get_minute()} SEC: {self.get_second()}"
+        if self.__is_ticking:
+            self._current_time = datetime.datetime.now()
+            self.__label_text = f"HOUR: {self.get_hour()} MIN: {self.get_minute()} SEC: {self.get_second()}"
 
-            self.clock.config(text=self.label_text)
-            self.clock.after(1000, self.tick)
+            self.__clock.config(text=self.__label_text)
+            self.__clock.after(1000, self.tick)
         else:
             print("is_ticking is set to false")
 
     def disable_ticking(self):
-        self.is_ticking = False
+        self.__is_ticking = False
 
     def enable_ticking(self):
-        self.is_ticking = True
+        self.__is_ticking = True

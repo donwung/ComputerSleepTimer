@@ -38,9 +38,9 @@ class Input_Field:
         seconds = self.second_entry.get()
 
         input_time = {
-            "hours": hour,
-            "minutes": minute,
-            "seconds": seconds,
+            "hours": int(hour),
+            "minutes": int(minute),
+            "seconds": int(seconds),
         }
 
         out = f"HOUR:{hour} MIN:{minute} SEC:{seconds}"

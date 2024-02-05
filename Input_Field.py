@@ -5,32 +5,54 @@ from Number_Entry import Number_Entry
 class Input_Field:
     def __init__(self, parent):
         print("Input_Field instantiated")
-        tk.Label(text="set computer to go to sleep in:").pack()
+        self.pixel = tk.PhotoImage(width=1, height=1)
 
-        hour_frame = tk.Frame(parent, bg="red")
-        hour_frame.pack()
-        minute_frame = tk.Frame(parent, bg="blue")
-        minute_frame.pack()
-        second_frame = tk.Frame(parent, bg="green")
-        second_frame.pack()
+        self.create_field(parent, "hours")
+        self.create_field(parent, "minutes")
+        self.create_field(parent, "seconds")
 
-        hour_label = tk.Label(hour_frame, text="hour_label", width=15)
-        hour_label.pack(side="left")
 
-        self.hour_entry = Number_Entry(hour_frame, entry_width=10)
-        self.hour_entry.pack(side="right", expand="true")
+    def create_field(self, parent, label_name):
+        frame = tk.Frame(parent)
+        frame.pack(side="left")
+        buttons = tk.Frame(frame, bg="yellow")
 
-        minute_label = tk.Label(minute_frame, text="minute_label", width=15)
-        minute_label.pack(side="left")
+        if(label_name=="hours"):
+            self.hour_entry = Number_Entry(frame, entry_width=5)
+            entry = self.hour_entry
+        elif(label_name=="minutes"):
+            self.minutes_entry = Number_Entry(frame, entry_width=5)
+            entry = self.minutes_entry
+        elif(label_name=="seconds"):
+            self.seconds_entry = Number_Entry(frame, entry_width=5)
+            entry = self.seconds_entry
+        else:
+            raise Exception("label_name has invalid parameter")
 
-        self.minute_entry = Number_Entry(minute_frame, entry_width=10)
-        self.minute_entry.pack(side="right", expand="true")
+        label = tk.Label(
+            frame, text=label_name, width=10, justify="left", anchor="w"
+        )
 
-        second_label = tk.Label(second_frame, text="second_label", width=15)
-        second_label.pack(side="left")
+        def say():
+            print("say")
 
-        self.second_entry = Number_Entry(second_frame, entry_width=10)
-        self.second_entry.pack(side="right", expand="true")
+        increment = tk.Button(
+            buttons,
+            image=self.pixel,
+            height=11,
+            width=25,
+            compound="c",
+            text="+",
+            command=say,
+        )
+        increment.pack(side="top")
+        entry.pack(side="left", expand="true")
+        decrement = tk.Button(
+            buttons, image=self.pixel, height=11, width=25, compound="c", text="-"
+        )
+        decrement.pack(side="top")
+        label.pack(side="right")
+        buttons.pack(side="left")
 
     def get_input_time(self):
         hour = self.hour_entry.get()

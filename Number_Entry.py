@@ -20,8 +20,14 @@ class Number_Entry(tk.Frame):
         )
 
         # Input and input debug
+        # TODO: research and reimplement?
+        # https://stackoverflow.com/a/35554720
+
+        frame = tk.Frame(self, borderwidth=2, relief=tk.SUNKEN)
+        frame.grid(row="0", column="0")
+
         self.entry = tk.Entry(
-            self, validate="key", validatecommand=vcmd, width=entry_width
+            frame, validate="key", validatecommand=vcmd, width=entry_width, font=("Arial", 12), borderwidth=10, relief=tk.FLAT
         )
         self.text = tk.Text(self, height=10, width=40)
         self.entry.grid(row="0", column="0")

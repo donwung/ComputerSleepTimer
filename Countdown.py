@@ -29,6 +29,7 @@ class Countdown(tk.Frame):
             print("timer at 0, stopped ticking")
 
     def start_countdown(self):
+        self.set_time_input()
         self.time_dict = self.sleeper.start_countdown()
         self.is_ticking = True
         self.tick()

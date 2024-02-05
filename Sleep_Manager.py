@@ -40,8 +40,8 @@ class Sleep_Manager:
 
     def go_to_sleep(self):
         print("COMPUTER IS BEING PUT TO SLEEP - GOODNIGHT")
-        os.system('cmd /c "cmd going to sleep"')
-        ctypes.windll.powrprof.SetSuspendState(0, 1, 0)
+        # os.system('cmd /c "cmd going to sleep"')
+        # ctypes.windll.powrprof.SetSuspendState(0, 1, 0)
 
 
 # TODO:

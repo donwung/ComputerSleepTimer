@@ -36,16 +36,23 @@ window = tk.Tk()
 # clock only tells time
 # there's no real functionality to clock besides turning it on/off
 clock = Clock(window)
-hms_input_field = Input_Field(window)
+
+header = tk.Label(text="set computer to go to sleep in:")
+header.pack(side="top")
+
+input_field_frame = tk.Frame(window)
+input_field_frame.pack(side="top")
+
+
+hms_input_field = Input_Field(input_field_frame)
 sleeper = Sleep_Manager(hms_input_field)
-
-
 countdown = Countdown(window, sleeper)
 
-set_time_input = tk.Button(text="set_time_input", command=countdown.set_time_input)
-set_time_input.pack()
+set_time_input = tk.Button(text="Set Time", command=countdown.set_time_input)
+set_time_input.pack(side="left", padx="20", pady="10")
 
-start_countdown = tk.Button(text="start_countdown", command=countdown.start_countdown)
-start_countdown.pack()
+start_countdown = tk.Button(text="Start", command=countdown.start_countdown)
+start_countdown.pack(side="right", padx="20", pady="10")
 
+window.geometry("250x200")
 window.mainloop()

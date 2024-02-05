@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+import re
 
 
 class Number_Entry(tk.Frame):
@@ -19,24 +19,31 @@ class Number_Entry(tk.Frame):
             "%W",
         )
 
-        # Input and input debug
-        # TODO: research and reimplement?
-        # https://stackoverflow.com/a/35554720
-
         frame = tk.Frame(self, borderwidth=2, relief=tk.SUNKEN)
         frame.grid(row="0", column="0")
 
         self.entry = tk.Entry(
-            frame, validate="key", validatecommand=vcmd, width=entry_width, font=("Arial", 12), borderwidth=10, relief=tk.FLAT
+            frame,
+            validate="key",
+            validatecommand=vcmd,
+            width=entry_width,
+            font=("Arial", 12),
+            borderwidth=10,
+            relief=tk.FLAT,
         )
+
         self.text = tk.Text(self, height=10, width=40)
         self.entry.grid(row="0", column="0")
+
+        self.entry.delete(0, "end")
+        self.entry.insert(0, "0")
+
+        self.entry.bind('<KeyRelease>', self.zero)
         # self.submit = tk.Button(self, text="Button", command=self.get)
         # self.submit.grid(row="0", column="1")
-        # self.text.pack(side="bottom", fill="both", expand=True)
+        # self.text.grid()
 
     def onValidate(self, d, i, P, s, S, v, V, W):
-        # can remove some of these
         self.text.delete("1.0", "end")
         self.text.insert("end", "OnValidate:\n")
         self.text.insert("end", "d='%s'\n" % d)
@@ -53,6 +60,7 @@ class Number_Entry(tk.Frame):
             self.text.insert("end", "STR='%s'\n" % P)
             self.STR = P
             return True
+        
         else:
             self.text.insert("end", "STR='%s'\n" % s)
             self.STR = s
@@ -64,9 +72,33 @@ class Number_Entry(tk.Frame):
         # print(self.text.get('1.0', 'end-1c'))
         if self.STR == "":
             out = "undefined"
-            # print(out)
+            print(out)
             return out
         else:
             out = self.STR
-            # print(out)
+            print(out)
             return out
+
+    def increment(self):
+        new_entry = int(self.STR) + 1
+
+        print(new_entry)
+        self.STR = new_entry
+        self.entry.delete(0, "end")
+        self.entry.insert(0, new_entry)
+
+    def decrement(self):
+        if(int(self.STR) >= 1):
+            new_entry = int(self.STR) - 1
+        else:
+            self.bell()
+
+        print(new_entry)
+        self.STR = new_entry
+        self.entry.delete(0, "end")
+        self.entry.insert(0, new_entry)
+
+    def zero(self, event):
+        if self.get() == 'undefined':
+            self.entry.delete(0, "end")
+            self.entry.insert(0, "0")

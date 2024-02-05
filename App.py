@@ -54,5 +54,5 @@ set_time_input.pack(side="left", padx="20", pady="10")
 start_countdown = tk.Button(text="Start", command=countdown.start_countdown)
 start_countdown.pack(side="right", padx="20", pady="10")
 
-window.geometry("250x200")
+window.minsize(400, 200)
 window.mainloop()

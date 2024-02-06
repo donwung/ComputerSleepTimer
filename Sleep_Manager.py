@@ -1,17 +1,20 @@
 import os
 import ctypes
+import tkinter as tk
 
 
 class Sleep_Manager:
-    def __init__(self, input_field):
+    def __init__(self, input_field, clock):
         print("Sleep_Manager instantiated")
         self.input_field = input_field
         self.time_dict = {"hours": 0, "minutes": 0, "seconds": 0}
         self.countdown_str = "countdown string"
+        self.sleep_method = "IN"
+        self.clock = clock
 
     def set_time_input(self):
         print("receiving a time")
-        new_time = self.input_field.get_input_time()
+        new_time = self.input_field.get_time_dict()
         self.time_dict = new_time
         print(self.time_dict)
 
@@ -43,7 +46,42 @@ class Sleep_Manager:
         # os.system('cmd /c "cmd going to sleep"')
         # ctypes.windll.powrprof.SetSuspendState(0, 1, 0)
 
+    def select_sleep_method(self):
+        self.sleep_method = self.sleep_method_radio.get()
+        for widget in self.sleep_input_frame.winfo_children():
+            widget.destroy()
+        if(self.sleep_method == "IN"):
+            print("creating sleep IN")
+            self.create_sleep_IN_fields(self.sleep_input_frame)
+        if(self.sleep_method == "AT"):
+            print("creating sleep AT")
+            self.create_sleep_AT_fields(self.sleep_input_frame, self.clock.clock_format.get())
 
-# TODO:
-# TODO:
-# TODO: create an inherited class to set sleep using sleep AT
+
+    def create_sleep_controls(self):
+        self.sleep_method_radio = tk.StringVar(None, self.sleep_method)
+
+        sleep_IN_header = tk.Radiobutton(
+            text="Set computer to sleep IN a specified time",
+            variable=self.sleep_method_radio,
+            value="IN",
+            command=self.select_sleep_method,
+        )
+        sleep_AT_header = tk.Radiobutton(
+            text="Set computer to sleep AT a specified time",
+            variable=self.sleep_method_radio,
+            value="AT",
+            command=self.select_sleep_method,
+        )
+        sleep_IN_header.pack()
+        sleep_AT_header.pack()
+
+        self.sleep_input_frame = tk.Frame()
+        self.sleep_input_frame.pack()
+
+    def create_sleep_AT_fields(self, frame, clock_format):
+        self.input_field.create_sleep_AT_fields(frame, clock_format)
+
+    def create_sleep_IN_fields(self, frame):
+        self.input_field.create_sleep_IN_fields(frame)
+

@@ -3,32 +3,43 @@ import datetime
 
 
 class Clock(tk.Frame):
-    __current_time = datetime.datetime.now()
-    __is_ticking = True
-    __label_text = "LABEL TEXT"
-    __clock = None
-
     def __init__(self, parent):
-        self.__clock = tk.Label(
-            text=self.__label_text, font=("Arial", 25), bg="black", fg="white"
-        )
-        self.__clock.pack(fill="x")
-
-        # enable clock ticking on start
-        self.enable_ticking()
-        self.tick()
+        self.current_time = datetime.datetime.now()
+        self.is_ticking = False
+        self.label_text = ""
+        self.clock = None
+        self.AMPM = "AM"
+        self.parent = parent
+        self.clock_format = tk.IntVar(None, 24)
         print("Clock instantiated")
 
+    def create_clock(self):
+        self.clock = tk.Label(
+            self.parent,
+            text=self.label_text,
+            font=("Arial", 25),
+            bg="black",
+            fg="white",
+        )
+        self.clock.pack(fill="x", side="top")
+
+        self.clock_format_frame = tk.Frame(self.parent)
+        self.clock_format_frame.pack()
+        self.create_format_swapper()
+
+        self.enable_ticking()
+        self.tick()
+
     def get_hour(self):
-        hour = int(self.__current_time.hour)
+        hour = int(self.current_time.hour)
         return hour
 
     def get_minute(self):
-        minute = int(self._current_time.minute)
+        minute = int(self.current_time.minute)
         return minute
 
     def get_second(self):
-        second = int(self._current_time.second)
+        second = int(self.current_time.second)
         return second
 
     def time_string_24(self, hour, minute, second):
@@ -49,16 +60,15 @@ class Clock(tk.Frame):
         hour_str = ""
         minute_str = ""
         second_str = ""
-        AMPM = "AM"
 
         if hour == 12:
-            AMPM = "PM"
+            self.AMPM = "PM"
 
         if hour > 12:
             hour_str = str(hour - 12)
+            self.AMPM = "PM"
         elif hour == 0:
             hour_str = "12"
-            AMPM = "AM"
         else:
             hour_str = str(hour)
 
@@ -67,31 +77,51 @@ class Clock(tk.Frame):
         if len(second_str) < 2:
             second_str = str(second)
 
-        return f"{hour_str} : {minute_str} : {second_str} {AMPM}"
+        return f"{hour_str} : {minute_str} : {second_str} {self.AMPM}"
 
-    def get_time_string(self, format: str):
+    def get_time_string(self, format):
         hour = self.get_hour()
         minute = self.get_minute()
         second = self.get_second()
 
-        if format == "12":
+        if format == 12:
             return self.time_string_12(hour, minute, second)
-        if format == "24":
+        if format == 24:
             return self.time_string_24(hour, minute, second)
         print("Check time format param")
 
     def tick(self):
-        if self.__is_ticking:
-            self._current_time = datetime.datetime.now()
-            self.__label_text = self.get_time_string("12")
+        if self.is_ticking:
+            self.current_time = datetime.datetime.now()
+            self.label_text = self.get_time_string(self.clock_format.get())
 
-            self.__clock.config(text=self.__label_text)
-            self.__clock.after(1, self.tick)
+            self.clock.config(text=self.label_text)
+            self.clock.after(1, self.tick)
         else:
             print("is_ticking is set to false")
 
     def disable_ticking(self):
-        self.__is_ticking = False
+        self.is_ticking = False
 
     def enable_ticking(self):
-        self.__is_ticking = True
+        self.is_ticking = True
+
+    def create_format_swapper(self):
+        clock_12 = tk.Radiobutton(
+            self.clock_format_frame,
+            text="set 12h time",
+            variable=self.clock_format,
+            value=12,
+            bg="white",
+            command=self.clock_format.set(12),
+        )
+        clock_24 = tk.Radiobutton(
+            self.clock_format_frame,
+            text="set 24h time",
+            variable=self.clock_format,
+            value=24,
+            bg="white",
+            command=self.clock_format.set(24),
+        )
+        clock_12.pack(side="left")
+        clock_24.pack(side="left")

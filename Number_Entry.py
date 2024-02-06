@@ -1,10 +1,9 @@
 import tkinter as tk
-import re
-
 
 class Number_Entry(tk.Frame):
-    def __init__(self, parent, entry_width):
+    def __init__(self, parent, entry_width, max):
         self.STR = ""
+        self.max = max
         tk.Frame.__init__(self, parent)
 
         vcmd = (
@@ -38,7 +37,8 @@ class Number_Entry(tk.Frame):
         self.entry.delete(0, "end")
         self.entry.insert(0, "0")
 
-        self.entry.bind('<KeyRelease>', self.zero)
+        self.entry.bind("<KeyRelease>", self.zero)
+        self.entry.bind("<KeyRelease>", self.cap, add='+')
         # self.submit = tk.Button(self, text="Button", command=self.get)
         # self.submit.grid(row="0", column="1")
         # self.text.grid()
@@ -60,7 +60,7 @@ class Number_Entry(tk.Frame):
             self.text.insert("end", "STR='%s'\n" % P)
             self.STR = P
             return True
-        
+
         else:
             self.text.insert("end", "STR='%s'\n" % s)
             self.STR = s
@@ -80,15 +80,18 @@ class Number_Entry(tk.Frame):
             return out
 
     def increment(self):
-        new_entry = int(self.STR) + 1
+        if int(self.STR) < self.max:
+            new_entry = int(self.STR) + 1
+        else:
+            self.bell()
 
-        print(new_entry)
+        # print(new_entry)
         self.STR = new_entry
         self.entry.delete(0, "end")
         self.entry.insert(0, new_entry)
 
     def decrement(self):
-        if(int(self.STR) >= 1):
+        if int(self.STR) >= 1:
             new_entry = int(self.STR) - 1
         else:
             self.bell()
@@ -99,6 +102,12 @@ class Number_Entry(tk.Frame):
         self.entry.insert(0, new_entry)
 
     def zero(self, event):
-        if self.get() == 'undefined':
+        if self.get() == "undefined":
             self.entry.delete(0, "end")
             self.entry.insert(0, "0")
+
+    def cap(self, event):
+        print("reached cap")
+        if int(self.get()) > self.max:
+            self.entry.delete(0, "end")
+            self.entry.insert(0, str(self.max))

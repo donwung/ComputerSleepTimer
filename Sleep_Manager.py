@@ -44,8 +44,7 @@ class Sleep_Manager:
 
     def go_to_sleep(self):
         print("COMPUTER IS BEING PUT TO SLEEP - GOODNIGHT")
-        # os.system('cmd /c "cmd going to sleep"')
-        # ctypes.windll.powrprof.SetSuspendState(0, 1, 0)
+        ctypes.windll.powrprof.SetSuspendState(0, 1, 0)
 
     def select_sleep_method(self):
         self.sleep_method = self.sleep_method_radio.get()
@@ -64,13 +63,13 @@ class Sleep_Manager:
         self.sleep_method_radio = tk.StringVar(None, self.sleep_method)
 
         sleep_IN_header = tk.Radiobutton(
-            text="Set computer to sleep IN a specified time",
+            text="Sleep Countdown",
             variable=self.sleep_method_radio,
             value="IN",
             command=self.select_sleep_method,
         )
         sleep_AT_header = tk.Radiobutton(
-            text="Set computer to sleep AT a specified time",
+            text="Sleep Scheduler",
             variable=self.sleep_method_radio,
             value="AT",
             command=self.select_sleep_method,

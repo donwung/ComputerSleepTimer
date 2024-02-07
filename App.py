@@ -17,8 +17,5 @@ sleep_manager = Sleep_Manager(input_field, clock)
 clock.create_clock()
 sleep_manager.create_sleep_settings()
 
-# change buttons to Sleep Countdown vs Scheduled Sleep
-
-
 window.minsize(400, 200)
 window.mainloop()

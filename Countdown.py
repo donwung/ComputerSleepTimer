@@ -43,30 +43,46 @@ class Countdown(tk.Frame):
         current_hour = current_time.hour
         current_minute = current_time.minute
         current_second = current_time.second
+
+        future_hour = time_dict["hours"]
+        future_minute = time_dict["minutes"]
+        future_second = time_dict["seconds"]
+        
         countdown_dict = {"hours": 0, "minutes": 0, "seconds": 0}
 
-        if current_second > time_dict["seconds"]:
-            current_second = 60 - current_second
-            countdown_dict["seconds"] += current_second + time_dict["seconds"]
-            countdown_dict["minutes"] += 1
-        else:
-            countdown_dict["seconds"] += time_dict["seconds"] - current_second
+        # print(f"current_time: {current_hour} {current_minute} {current_second}")
+        # print(f"future_time: {future_hour} {future_minute} {future_second}")
 
-        if current_minute > time_dict["minutes"]:
-            current_minute = 60 - current_minute
-            countdown_dict["minutes"] += current_minute + time_dict["minutes"]
-            countdown_dict["hours"] += 1
+        if current_second > future_second:
+            countdown_dict["seconds"] = (60 - current_second) + future_second
+            current_minute = current_minute + 1
         else:
-            countdown_dict["minutes"] += time_dict["minutes"] - current_minute
+            countdown_dict["seconds"] = future_second - current_second
+        # print("seconds:")
+        # print(current_second)
+        # print(future_second)
+        # print(countdown_dict["seconds"])
 
-        if current_hour > time_dict["hours"]:
-            current_hour = 24 - current_hour
-            countdown_dict["hours"] += current_hour + time_dict["hours"]
+        if current_minute > future_minute:
+            countdown_dict["minutes"] = (60 - current_minute) + future_minute
+            current_hour = current_hour + 1
         else:
-            countdown_dict["hours"] += time_dict["hours"] - current_hour
+            countdown_dict["minutes"] = future_minute - current_minute 
+        # print("minutes:")
+        # print(current_minute)
+        # print(future_minute)
+        # print(countdown_dict["minutes"])
+
+        if current_hour > future_hour:
+            countdown_dict["hours"] = (24 - current_hour) + future_hour
+        else:
+            countdown_dict["hours"] = future_hour - current_hour
+        # print("hours:")
+        # print(current_hour)
+        # print(future_hour)
+        # print(countdown_dict["hours"])
 
         print("sleeping at:" + str(countdown_dict))
-
         self.countdown_dict = countdown_dict
 
     def start_countdown(self):
@@ -138,6 +154,7 @@ class Countdown(tk.Frame):
             elif self.time_dict["AMPM"] == "PM" and self.time_dict["hours"] < 12:
                 self.time_dict["hours"] = 0
             del self.time_dict["AMPM"]
+            # print(self.time_dict)
 
         self.calculate_countdown_dict(self.time_dict)
         self.start_countdown()

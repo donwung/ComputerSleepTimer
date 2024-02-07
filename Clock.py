@@ -109,7 +109,7 @@ class Clock(tk.Frame):
     def create_format_swapper(self):
         clock_12 = tk.Radiobutton(
             self.clock_format_frame,
-            text="Change clock to 12h time",
+            text="12h Format",
             variable=self.clock_format,
             value=12,
             bg="white",
@@ -117,7 +117,7 @@ class Clock(tk.Frame):
         )
         clock_24 = tk.Radiobutton(
             self.clock_format_frame,
-            text="Change clock to 24h time",
+            text="24h Format",
             variable=self.clock_format,
             value=24,
             bg="white",

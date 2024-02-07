@@ -35,10 +35,15 @@ class Number_Entry(tk.Frame):
         self.entry.grid(row="0", column="0")
 
         self.entry.delete(0, "end")
-        self.entry.insert(0, "0")
 
-        self.entry.bind("<KeyRelease>", self.zero)
-        self.entry.bind("<KeyRelease>", self.cap, add='+')
+        if(self.max == 12):
+            self.entry.bind("<KeyRelease>", self.one)
+            self.entry.bind("<KeyRelease>", self.cap, add='+')
+            self.entry.insert(0, "1")
+        else:
+            self.entry.bind("<KeyRelease>", self.zero)
+            self.entry.bind("<KeyRelease>", self.cap, add='+')
+            self.entry.insert(0, "0")
         # self.submit = tk.Button(self, text="Button", command=self.get)
         # self.submit.grid(row="0", column="1")
         # self.text.grid()
@@ -80,7 +85,7 @@ class Number_Entry(tk.Frame):
             return out
 
     def increment(self):
-        if int(self.STR) < self.max:
+        if int(self.STR) + 1 < self.max:
             new_entry = int(self.STR) + 1
         else:
             self.bell()
@@ -91,9 +96,17 @@ class Number_Entry(tk.Frame):
         self.entry.insert(0, new_entry)
 
     def decrement(self):
-        if int(self.STR) >= 1:
+        # case where format is 12h
+        # technically, case where max time range is 12, but 12 can only occur as
+        # a maximum in the hour field - other fields are 60, 60, and 1000
+
+        if int(self.STR) - 1 <= 1 and self.max == 12:
+            new_entry = 1
+            self.bell()
+        elif int(self.STR) >= 1:
             new_entry = int(self.STR) - 1
         else:
+            new_entry = 0
             self.bell()
 
         print(new_entry)
@@ -106,8 +119,16 @@ class Number_Entry(tk.Frame):
             self.entry.delete(0, "end")
             self.entry.insert(0, "0")
 
+    def one(self, event):
+        if self.get() == "undefined" or int(self.get()) <= 1:
+            self.entry.delete(0, "end")
+            self.entry.insert(0, "1")
+
     def cap(self, event):
         print("reached cap")
-        if int(self.get()) > self.max:
+        if int(self.get()) >= self.max and self.max == 12:
             self.entry.delete(0, "end")
             self.entry.insert(0, str(self.max))
+        elif int(self.get()) >= self.max:
+            self.entry.delete(0, "end")
+            self.entry.insert(0, str(self.max - 1))

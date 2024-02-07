@@ -10,20 +10,17 @@ window = tk.Tk()
 
 clock = Clock(window)
 input_field = Input_Field(window)
-sleeper = Sleep_Manager(input_field, clock)
-countdown = Countdown(window, sleeper)
+# countdown = Countdown(window)
+
+sleep_manager = Sleep_Manager(input_field, clock)
 
 
 clock.create_clock()
-sleeper.create_sleep_controls()
-countdown.create_countdown_timer()
+sleep_manager.create_sleep_settings()
+# after doing sleep settings, the input fields will appear
+# countdown.create_countdown_timer()
+# countdown.create_countdown_buttons()
 
-
-set_time_input = tk.Button(text="Set Time", command=countdown.set_time_input)
-set_time_input.pack(side="left", padx="20", pady="10")
-
-start_countdown = tk.Button(text="Start", command=countdown.start_countdown)
-start_countdown.pack(side="right", padx="20", pady="10")
 
 window.minsize(400, 200)
 window.mainloop()

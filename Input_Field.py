@@ -3,20 +3,24 @@ from Number_Entry import Number_Entry
 from AMPM_Entry import AMPM_Entry
 
 
+# Input_Field is responsible for creating the primary interactible forms and fields.
+# This class builds forms and returns the information on those forms.
 class Input_Field:
     def __init__(self, parent):
         print("Input_Field instantiated")
         self.pixel = tk.PhotoImage(width=1, height=1)
         self.parent = parent
+        self.hours_entry = None
+        self.minutes_entry = None
+        self.seconds_entry = None
+        self.clock_format = 24
 
     def create_sleep_IN_fields(self, frame):
         print("creating IN fields")
 
+        self.clock_format = 24
         input_field_frame = tk.Frame(frame)
         input_field_frame.pack(side="top")
-
-        # frame = tk.Frame()
-        # frame.pack(padx=10, side="top")
 
         self.create_field(input_field_frame, "hours", 256)
         self.create_field(input_field_frame, "minutes", 256)
@@ -24,18 +28,15 @@ class Input_Field:
 
     def create_sleep_AT_fields(self, frame, clock_format):
         print("creating AT fields")
-        print("for " + str(clock_format) + "h clocks")
+        self.clock_format = clock_format
 
         input_field_frame = tk.Frame(frame)
         input_field_frame.pack(side="top")
 
-        # frame = tk.Frame()
-        # frame.pack(padx=10, side="top")
-
-        self.create_field(input_field_frame, "hours", clock_format)
-        self.create_field(input_field_frame, "minutes", 60)
-        self.create_field(input_field_frame, "seconds", 60)
-        if(clock_format == 12):
+        self.create_field(input_field_frame, "hour", clock_format)
+        self.create_field(input_field_frame, "minute", 60)
+        self.create_field(input_field_frame, "second", 60)
+        if self.clock_format == 12:
             self.create_AMPM_radio(input_field_frame)
 
     def create_field(self, parent, label_name, max):
@@ -44,13 +45,13 @@ class Input_Field:
         buttons = tk.Frame(frame, bg="yellow")
         entry_width = 5
 
-        if label_name == "hours":
+        if label_name == "hour":
             self.hours_entry = Number_Entry(frame, entry_width, max)
             entry = self.hours_entry
-        elif label_name == "minutes":
+        elif label_name == "minute":
             self.minutes_entry = Number_Entry(frame, entry_width, max)
             entry = self.minutes_entry
-        elif label_name == "seconds":
+        elif label_name == "second":
             self.seconds_entry = Number_Entry(frame, entry_width, max)
             entry = self.seconds_entry
         else:
@@ -118,14 +119,16 @@ class Input_Field:
         hour = self.hours_entry.get()
         minute = self.minutes_entry.get()
         second = self.seconds_entry.get()
-        AMPM = self.AMPM_field.get()
 
-        input_time = {
+        time_dict = {
             "hours": int(hour),
             "minutes": int(minute),
             "seconds": int(second),
         }
 
-        out = f"HOUR:{hour} MIN:{minute} SEC:{second}"
-        print(out)
-        return input_time
+        if self.clock_format == 12:
+            AMPM = self.AMPM_field.get()
+            time_dict["AMPM"] = str(AMPM)
+
+        print(f"HOUR:{hour} MIN:{minute} SEC:{second}")
+        return time_dict

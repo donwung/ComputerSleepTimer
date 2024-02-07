@@ -1,2 +1,5 @@
 testing/
 __pycache__/
+build/
+dist/
+/App.spec

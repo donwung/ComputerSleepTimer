@@ -1,9 +1,20 @@
 import os
 import ctypes
 import tkinter as tk
+from Countdown import Countdown
 
 
 class Sleep_Manager:
+    # Sleep_Manager manages the fields that influence how sleeping is performed:
+    # whether it's through setting IN vs AT times.
+    # Sleep_Manager also creates the forms that determine which function to use.
+    # Sleep_Manager's primary function is to set the computer to sleep via go_to_sleep().
+    # 
+    # This class receives an input_field object and a clock to make certain forms.
+    # The input forms require a clock's 12h vs 24h format to create the correct form.
+    def __init__(self):
+        print("Created mini manager - this constructor should be refactored out")
+
     def __init__(self, input_field, clock):
         print("Sleep_Manager instantiated")
         self.input_field = input_field
@@ -33,14 +44,6 @@ class Sleep_Manager:
         # print(time_to_sleep_in_ms)
         return time_to_sleep_in_ms
 
-    def start_countdown(self):
-        print("setting countdown")
-        print(f"sleeping in: {str(self.convert_to_ms(self.time_dict))} ms")
-        self.countdown_str = {str(self.convert_to_ms(self.time_dict))}
-        # in X time, I will sleep
-        print(self.time_dict)
-        return self.time_dict
-
     def go_to_sleep(self):
         print("COMPUTER IS BEING PUT TO SLEEP - GOODNIGHT")
         # os.system('cmd /c "cmd going to sleep"')
@@ -50,15 +53,16 @@ class Sleep_Manager:
         self.sleep_method = self.sleep_method_radio.get()
         for widget in self.sleep_input_frame.winfo_children():
             widget.destroy()
-        if(self.sleep_method == "IN"):
+        if self.sleep_method == "IN":
             print("creating sleep IN")
             self.create_sleep_IN_fields(self.sleep_input_frame)
-        if(self.sleep_method == "AT"):
+        if self.sleep_method == "AT":
             print("creating sleep AT")
-            self.create_sleep_AT_fields(self.sleep_input_frame, self.clock.clock_format.get())
+            self.create_sleep_AT_fields(
+                self.sleep_input_frame, self.clock.clock_format.get()
+            )
 
-
-    def create_sleep_controls(self):
+    def create_sleep_settings(self):
         self.sleep_method_radio = tk.StringVar(None, self.sleep_method)
 
         sleep_IN_header = tk.Radiobutton(
@@ -81,7 +85,10 @@ class Sleep_Manager:
 
     def create_sleep_AT_fields(self, frame, clock_format):
         self.input_field.create_sleep_AT_fields(frame, clock_format)
+        countdown = Countdown(frame)
+        countdown.create_countdown_timer()
+        countdown.create_AT_countdown_buttons()
+        countdown.hook_to_field(self.input_field)
 
     def create_sleep_IN_fields(self, frame):
         self.input_field.create_sleep_IN_fields(frame)
-

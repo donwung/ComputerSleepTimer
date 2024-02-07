@@ -22,14 +22,14 @@ class Input_Field:
         input_field_frame = tk.Frame(frame)
         input_field_frame.pack(side="top")
 
-        self.create_field(input_field_frame, "hours", 256)
-        self.create_field(input_field_frame, "minutes", 256)
-        self.create_field(input_field_frame, "seconds", 256)
+        self.create_field(input_field_frame, "hour", 256)
+        self.create_field(input_field_frame, "minute", 256)
+        self.create_field(input_field_frame, "second", 256)
 
     def create_sleep_AT_fields(self, frame, clock_format):
         print("creating AT fields")
+        
         self.clock_format = clock_format
-
         input_field_frame = tk.Frame(frame)
         input_field_frame.pack(side="top")
 

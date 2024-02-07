@@ -32,7 +32,14 @@ class Countdown(tk.Frame):
         print(str(self.countdown_dict))
         if self.is_ticking == True:
             self.decrement_time()
-            label_text = f"remaining {self.countdown_dict['hours']} : {self.countdown_dict['minutes']} : {self.countdown_dict['seconds']}"
+
+            # turns texts into 2 digit text
+            countdown_txt = {
+                "seconds": str(self.countdown_dict['seconds']) if len(str(self.countdown_dict['seconds'])) > 1 else "0" + str(self.countdown_dict['seconds']),
+                "minutes": str(self.countdown_dict['minutes']) if len(str(self.countdown_dict['minutes'])) > 1 else "0" + str(self.countdown_dict['minutes']),
+                "hours": str(self.countdown_dict['hours']) if len(str(self.countdown_dict['hours'])) > 1 else "0" + str(self.countdown_dict['hours'])
+            }
+            label_text = f"Time Remaining: {countdown_txt['hours']} : {countdown_txt['minutes']} : {countdown_txt['seconds']}"
             self.countdown_label.config(text=label_text)
             self.countdown_label.after(1000, self.tick)
         else:
@@ -86,7 +93,6 @@ class Countdown(tk.Frame):
         self.countdown_dict = countdown_dict
 
     def start_countdown(self):
-
         if not self.is_ticking:
             print("Starting countdown")
             self.is_ticking = True
@@ -96,6 +102,10 @@ class Countdown(tk.Frame):
             self.is_ticking = False
             self.start_countdown_btn.config(text="Start Countdown")
 
+    def start_IN_countdown(self):
+        print("calculating IN time")
+        self.countdown_dict = self.input_field.get_time_dict()
+        self.start_countdown()
 
     def decrement_time(self):
         hours = self.countdown_dict["hours"]
@@ -134,15 +144,10 @@ class Countdown(tk.Frame):
         self.start_countdown_btn.pack(side="right", padx="20", pady="10")
 
     def create_IN_countdown_buttons(self):
-        set_time_input = tk.Button(
-            self.parent, text="Set Countdown", command=self.set_IN_time_dict
+        self.start_countdown_btn = tk.Button(
+            self.parent, text="Start Countdown", command=self.start_IN_countdown
         )
-        set_time_input.pack(side="left", padx="20", pady="10")
-
-        start_countdown = tk.Button(
-            self.parent, text="Start", command=self.start_IN_countdown
-        )
-        start_countdown.pack(side="right", padx="20", pady="10")
+        self.start_countdown_btn.pack(side="right", padx="20", pady="10")
 
     def start_AT_countdown(self):
         print("calculating AT time")

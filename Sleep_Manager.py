@@ -92,3 +92,7 @@ class Sleep_Manager:
 
     def create_sleep_IN_fields(self, frame):
         self.input_field.create_sleep_IN_fields(frame)
+        countdown = Countdown(frame)
+        countdown.create_countdown_timer()
+        countdown.create_IN_countdown_buttons()
+        countdown.hook_to_field(self.input_field)

@@ -77,11 +77,11 @@ class Number_Entry(tk.Frame):
         # print(self.text.get('1.0', 'end-1c'))
         if self.STR == "":
             out = "undefined"
-            print(out)
+            # print(out)
             return out
         else:
             out = self.STR
-            print(out)
+            # print(out)
             return out
 
     def increment(self):
@@ -109,7 +109,7 @@ class Number_Entry(tk.Frame):
             new_entry = 0
             self.bell()
 
-        print(new_entry)
+        # print(new_entry)
         self.STR = new_entry
         self.entry.delete(0, "end")
         self.entry.insert(0, new_entry)
@@ -125,7 +125,7 @@ class Number_Entry(tk.Frame):
             self.entry.insert(0, "1")
 
     def cap(self, event):
-        print("reached cap")
+        # print("reached cap")
         if int(self.get()) >= self.max and self.max == 12:
             self.entry.delete(0, "end")
             self.entry.insert(0, str(self.max))

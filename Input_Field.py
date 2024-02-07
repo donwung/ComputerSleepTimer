@@ -7,7 +7,7 @@ from AMPM_Entry import AMPM_Entry
 # This class builds forms and returns the information on those forms.
 class Input_Field:
     def __init__(self, parent):
-        print("Input_Field instantiated")
+        # print("Input_Field instantiated")
         self.pixel = tk.PhotoImage(width=1, height=1)
         self.parent = parent
         self.hours_entry = None
@@ -16,7 +16,7 @@ class Input_Field:
         self.clock_format = 24
 
     def create_sleep_IN_fields(self, frame):
-        print("creating IN fields")
+        # print("creating IN fields")
 
         self.clock_format = 24
         input_field_frame = tk.Frame(frame)
@@ -27,8 +27,8 @@ class Input_Field:
         self.create_field(input_field_frame, "second", 256)
 
     def create_sleep_AT_fields(self, frame, clock_format):
-        print("creating AT fields")
-        
+        # print("creating AT fields")
+
         self.clock_format = clock_format
         input_field_frame = tk.Frame(frame)
         input_field_frame.pack(side="top")
@@ -130,5 +130,5 @@ class Input_Field:
             AMPM = self.AMPM_field.get()
             time_dict["AMPM"] = str(AMPM)
 
-        print(f"HOUR:{hour} MIN:{minute} SEC:{second}")
+        # print(f"HOUR:{hour} MIN:{minute} SEC:{second}")
         return time_dict

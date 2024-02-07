@@ -11,25 +11,26 @@ class Countdown(tk.Frame):
     # This class is mostly functional. Included is a create_countdown_timer()
     # function, but this does not display anything interactive.
     # It should remain "just a countdown."
-    def __init__(self, parent):
-        print("Countdown instantiated")
+    def __init__(self, parent, manager):
+        # print("Countdown instantiated")
         self.parent = parent
         self.input_field = None
         self.time_dict = {"hours": 0, "minutes": 0, "seconds": 0}
         self.countdown_dict = {"hours": 0, "minutes": 0, "seconds": 0}
         self.is_decrementing = False
         self.is_ticking = False
+        self.manager = manager
 
     def create_countdown_timer(self):
         countdown_frame = tk.Frame(self.parent)
-        countdown_frame.pack()
+        countdown_frame.pack(fill="x", expand=True)
 
-        label_text = f"remaining 0 : 0 : 0"
-        self.countdown_label = tk.Label(countdown_frame, text=label_text, bg="aqua")
-        self.countdown_label.pack()
+        label_text = f"Time Remaining: 00 : 00 : 00"
+        self.countdown_label = tk.Label(countdown_frame, text=label_text, bg="white", font=("Arial", 14))
+        self.countdown_label.pack(fill="x", expand=True, pady=5)
 
     def tick(self):
-        print(str(self.countdown_dict))
+        # print(str(self.countdown_dict))
         if self.is_ticking == True:
             self.decrement_time()
 
@@ -89,12 +90,12 @@ class Countdown(tk.Frame):
         # print(future_hour)
         # print(countdown_dict["hours"])
 
-        print("sleeping at:" + str(countdown_dict))
+        # print("sleeping at:" + str(countdown_dict))
         self.countdown_dict = countdown_dict
 
     def start_countdown(self):
         if not self.is_ticking:
-            print("Starting countdown")
+            # print("Starting countdown")
             self.is_ticking = True
             self.tick()
             self.start_countdown_btn.config(text="Stop Countdown")
@@ -103,7 +104,7 @@ class Countdown(tk.Frame):
             self.start_countdown_btn.config(text="Start Countdown")
 
     def start_IN_countdown(self):
-        print("calculating IN time")
+        # print("calculating IN time")
         self.countdown_dict = self.input_field.get_time_dict()
         self.start_countdown()
 
@@ -132,8 +133,7 @@ class Countdown(tk.Frame):
         if self.is_decrementing == False:
             self.is_ticking = False
             # put computer to sleep here
-            # sleeper = Sleep_Manager()
-            # sleeper.go_to_sleep()
+            self.manager.go_to_sleep()
 
         self.countdown_dict = {"hours": hours, "minutes": minutes, "seconds": seconds}
 
@@ -150,10 +150,10 @@ class Countdown(tk.Frame):
         self.start_countdown_btn.pack(side="right", padx="20", pady="10")
 
     def start_AT_countdown(self):
-        print("calculating AT time")
+        # print("calculating AT time")
         self.time_dict = self.input_field.get_time_dict()
         if "AMPM" in self.time_dict:
-            print("converting 12h time to 24h time")
+            # print("converting 12h time to 24h time")
             if self.time_dict["AMPM"] == "PM" and self.time_dict["hours"] < 12:
                 self.time_dict["hours"] += 12
             elif self.time_dict["AMPM"] == "PM" and self.time_dict["hours"] < 12:
@@ -165,5 +165,5 @@ class Countdown(tk.Frame):
         self.start_countdown()
 
     def hook_to_field(self, input_field):
-        print("hooking input field to countdown class")
+        # print("hooking input field to countdown class")
         self.input_field = input_field

@@ -12,11 +12,9 @@ class Sleep_Manager:
     # 
     # This class receives an input_field object and a clock to make certain forms.
     # The input forms require a clock's 12h vs 24h format to create the correct form.
-    def __init__(self):
-        print("Created mini manager - this constructor should be refactored out")
 
     def __init__(self, input_field, clock):
-        print("Sleep_Manager instantiated")
+        # print("Sleep_Manager instantiated")
         self.input_field = input_field
         self.time_dict = {"hours": 0, "minutes": 0, "seconds": 0}
         self.countdown_str = "countdown string"
@@ -24,10 +22,10 @@ class Sleep_Manager:
         self.clock = clock
 
     def set_time_input(self):
-        print("receiving a time")
+        # print("receiving a time")
         new_time = self.input_field.get_time_dict()
         self.time_dict = new_time
-        print(self.time_dict)
+        # print(self.time_dict)
 
     def get_time_input(self):
         return self.time_dict
@@ -54,10 +52,10 @@ class Sleep_Manager:
         for widget in self.sleep_input_frame.winfo_children():
             widget.destroy()
         if self.sleep_method == "IN":
-            print("creating sleep IN")
+            # print("creating sleep IN")
             self.create_sleep_IN_fields(self.sleep_input_frame)
         if self.sleep_method == "AT":
-            print("creating sleep AT")
+            # print("creating sleep AT")
             self.create_sleep_AT_fields(
                 self.sleep_input_frame, self.clock.clock_format.get()
             )
@@ -85,14 +83,14 @@ class Sleep_Manager:
 
     def create_sleep_AT_fields(self, frame, clock_format):
         self.input_field.create_sleep_AT_fields(frame, clock_format)
-        countdown = Countdown(frame)
+        countdown = Countdown(frame, self)
         countdown.create_countdown_timer()
         countdown.create_AT_countdown_buttons()
         countdown.hook_to_field(self.input_field)
 
     def create_sleep_IN_fields(self, frame):
         self.input_field.create_sleep_IN_fields(frame)
-        countdown = Countdown(frame)
+        countdown = Countdown(frame, self)
         countdown.create_countdown_timer()
         countdown.create_IN_countdown_buttons()
         countdown.hook_to_field(self.input_field)

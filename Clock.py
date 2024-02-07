@@ -11,7 +11,7 @@ class Clock(tk.Frame):
         self.AMPM = "AM"
         self.parent = parent
         self.clock_format = tk.IntVar(None, 24)
-        print("Clock instantiated")
+        # print("Clock instantiated")
 
     def create_clock(self):
         self.clock = tk.Label(
@@ -24,7 +24,7 @@ class Clock(tk.Frame):
         self.clock.pack(fill="x", side="top")
 
         self.clock_format_frame = tk.Frame(self.parent)
-        self.clock_format_frame.pack()
+        self.clock_format_frame.pack(fill="x", side="top", expand=False)
         self.create_format_swapper()
 
         self.enable_ticking()
@@ -88,7 +88,7 @@ class Clock(tk.Frame):
             return self.time_string_12(hour, minute, second)
         if format == 24:
             return self.time_string_24(hour, minute, second)
-        print("Check time format param")
+        # print("Check time format param")
 
     def tick(self):
         if self.is_ticking:
@@ -109,7 +109,7 @@ class Clock(tk.Frame):
     def create_format_swapper(self):
         clock_12 = tk.Radiobutton(
             self.clock_format_frame,
-            text="set 12h time",
+            text="Change clock to 12h time",
             variable=self.clock_format,
             value=12,
             bg="white",
@@ -117,11 +117,11 @@ class Clock(tk.Frame):
         )
         clock_24 = tk.Radiobutton(
             self.clock_format_frame,
-            text="set 24h time",
+            text="Change clock to 24h time",
             variable=self.clock_format,
             value=24,
             bg="white",
             command=self.clock_format.set(24),
         )
-        clock_12.pack(side="left")
-        clock_24.pack(side="left")
+        clock_12.pack(side="top", fill="x")
+        clock_24.pack(side="top", fill="x")

@@ -8,7 +8,16 @@ The app doesn't have that many interactive features, so I think it's pretty easy
 
 You can change whether the clock is shown in 12 Hour or 24 Hour format.
 
+![Screenshot 2024-02-07 161557](https://github.com/donwung/ComputerSleepTimer/assets/113479299/8cc363d6-3748-4469-b908-93d2adab8e73)
+![image](https://github.com/donwung/ComputerSleepTimer/assets/113479299/dfeffb91-a453-4fbb-b3ed-40bedab891e0)
+
+
+
 And you can select whether you want to set your computer to sleep on a countdown, or on a schedule.
+![image](https://github.com/donwung/ComputerSleepTimer/assets/113479299/3840196d-64f5-4eb2-a0c4-53622a2d5621)
+![image](https://github.com/donwung/ComputerSleepTimer/assets/113479299/229bb97d-3d93-4c41-bc1b-ecfad0e91bed)
+
+
 
 After setting your time, upon selection of Start Countdown, your computer will be primed to sleep under your settings.
 
